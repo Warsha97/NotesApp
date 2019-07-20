@@ -39,7 +39,7 @@ namespace NoteApplication.Models
 
             modelBuilder.Entity<Notes>(entity =>
             {
-                entity.Property(e => e.Id).ValueGeneratedNever();
+              
 
                 entity.Property(e => e.Created).HasColumnType("date");
 

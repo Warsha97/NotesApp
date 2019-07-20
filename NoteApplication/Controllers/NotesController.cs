@@ -49,26 +49,35 @@ namespace NoteApplication.Controllers
             //return View(_notesRepository.GetNotes());
             return _noteService.GetNotesService();
         }
-       
+
         // POST api/<controller>
-        [HttpPost]
+
         // [Route("api/[controller]/new-note")]
-          /* public IActionResult AddNote(Notes note)
-           {
-               if (ModelState.IsValid)
-               {
-                   Notes newNote = _notesRepository.AddNote(note);
-               }
-               return View(note);
-           }  */
-
-        public int AddNote(Notes note)
-        {
+        /* public IActionResult AddNote(Notes note)
+         {
+             if (ModelState.IsValid)
+             {
+                 Notes newNote = _notesRepository.AddNote(note);
+             }
+             return View(note);
+         }  */
+        //[HttpPost]
+        //public int Post(Notes note)
+        //{
             
-            return _noteService.AddNoteService(note);
-        } 
+         //   return _noteService.AddNoteService(note);
+        //}
 
-       
+        [HttpPost]
+        public int Post(Notes createdNote)
+        {
+
+        return _noteService.AddNoteService(createdNote);
+
+
+
+    }
+
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]

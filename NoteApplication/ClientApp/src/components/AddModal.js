@@ -1,13 +1,17 @@
 ﻿import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
-
+import axios from 'axios';
 export class AddModal extends Component {
+
+
 
     state = {
         newNoteModal: false,
         newNoteData: {
-            title: '',
-            noteDescription: ''
+            title:'',
+            note:'',
+            created: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
+            lastUpdated: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
         }
     }
 
@@ -18,6 +22,27 @@ export class AddModal extends Component {
         });
     }
 
+    addNote() {
+        //axios.post('api/Notes', this.state.newNoteData).then((response) => {
+        //  console.log(response.data)
+        //});
+        const params = new URLSearchParams();
+        params.append('title', this.state.newNoteData.title);
+        params.append('note', this.state.newNoteData.note);
+        params.append('created', this.state.newNoteData.created);
+        params.append('lastUpdated', this.state.newNoteData.lastUpdated);
+
+        axios({
+            method: 'post',
+            url: 'api/Notes',
+            data: {
+                title: this.state.newNoteData.title,
+                note: this.state.newNoteData.note,
+                    created: this.state.newNoteData.created,
+                lastUpdated: this.state.newNoteData.lastUpdated
+            }
+        });
+    }
 
 
 
@@ -39,16 +64,16 @@ export class AddModal extends Component {
                         </FormGroup>
 
                         <FormGroup>
-                            <Label for="noteDescription">New Note</Label>
-                            <Input id="noteDescription" value={this.state.newNoteData.noteDescription} onChange={(e) => {
+                            <Label for="note">New Note</Label>
+                            <Input id="note" value={this.state.newNoteData.note} onChange={(e) => {
                                 let { newNoteData } = this.state;
-                                newNoteData.noteDescription = e.target.value;
+                                newNoteData.note = e.target.value;
                                 this.setState({ newNoteData });
                             }} />
                         </FormGroup>
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="success" onClick={this.toggle}>Save</Button>{' '}
+                        <Button color="success" onClick={this.addNote.bind(this)}>Save</Button>{' '}
                         <Button color="secondary" onClick={this.toggleNewNoteModal.bind(this)}>Cancel</Button>
                     </ModalFooter>
                 </Modal>
