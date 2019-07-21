@@ -2,11 +2,25 @@
 import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { AddModal } from './AddModal';
+import { EditModal } from './EditModal';
 
 export class NotesTable extends Component {
-    state = {
-        items: []
+    constructor() {
+        super();
+        this.handleStateChange = this.handleStateChange.bind(this);
     }
+    
+
+   state = {
+        items: [],
+        editingData: {
+            id: '',
+            title: '',
+            lastUpdated: ''
+
+        }
+    }
+
 
 
     componentWillMount() {
@@ -23,15 +37,33 @@ export class NotesTable extends Component {
 
 
 
+    editNote = (selectedId, selectedTitle, selectedNote, selectedCreated, selectedLastUpdated) => {
+
+        this.refs.editmodal.edit(selectedId, selectedTitle, selectedNote, selectedCreated, selectedLastUpdated);
+      
+    }
+
+
+    handleStateChange(value) {
+        //event.preventDefault();
+        let items = this.state.items;
+        items.push(value);
+        this.setState({ items: items })
+    }
+    
+
+
     render() {
+    
         return (
             <div>
                 <h1>Note Book</h1>
-                <AddModal />
+                <AddModal handleStateChange={this.handleStateChange} />
+                
                 <Table dark>
                     <thead>
                         <tr>
-                            <th>#</th>
+                           
                             <th>Title</th>
                             <th>Description</th>
                             <th>Created</th>
@@ -40,19 +72,25 @@ export class NotesTable extends Component {
                     </thead>
                     {
                         this.state.items.map(item => (
-
+                            
                             <tr key={item.id}>
-                                <td> {item.id}</td>
+                               
                                 <td> {item.title}</td>
                                 <td> {item.note}</td>
                                 <td> {item.created}</td>
                                 <td> {item.lastUpdated}</td>
                                 <td>
-                                    <Button color="primary" size="sm" className="mr-2">Edit</Button>
+
+                                    <EditModal ref="editmodal"/>
+                                    <Button color="primary" size="sm" className="mr-2" onClick={this.editNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Edit</Button>
                                     <Button color="danger" size="sm">Delete</Button>
                                 </td>
 
+
                             </tr>
+                           
+                                                   
+
 
                         )
                         )

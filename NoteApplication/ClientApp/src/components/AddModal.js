@@ -1,9 +1,10 @@
 ﻿import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
 import axios from 'axios';
+
+
+
 export class AddModal extends Component {
-
-
 
     state = {
         newNoteModal: false,
@@ -22,6 +23,8 @@ export class AddModal extends Component {
         });
     }
 
+  
+   
     addNote() {
         //axios.post('api/Notes', this.state.newNoteData).then((response) => {
         //  console.log(response.data)
@@ -38,10 +41,13 @@ export class AddModal extends Component {
             data: {
                 title: this.state.newNoteData.title,
                 note: this.state.newNoteData.note,
-                    created: this.state.newNoteData.created,
+                created: this.state.newNoteData.created,
                 lastUpdated: this.state.newNoteData.lastUpdated
             }
-        });
+        }).then((response) => console.log(response.data));
+
+        
+        this.props.handleStateChange(this.state.newNoteData);
     }
 
 
