@@ -3,6 +3,7 @@ import { Button } from 'reactstrap';
 import { Table } from 'reactstrap';
 import { AddModal } from './AddModal';
 import { EditModal } from './EditModal';
+import { DeleteModal } from './DeleteModal';
 
 export class NotesTable extends Component {
     constructor() {
@@ -43,6 +44,14 @@ export class NotesTable extends Component {
       
     }
 
+    deleteNote = (selectedId, selectedTitle, selectedNote, selectedCreated, selectedLastUpdated) => {
+
+        this.refs.deletemodal.delete(selectedId, selectedTitle, selectedNote, selectedCreated, selectedLastUpdated);
+
+    }
+
+    
+
 
     handleStateChange(value) {
         //event.preventDefault();
@@ -81,9 +90,10 @@ export class NotesTable extends Component {
                                 <td> {item.lastUpdated}</td>
                                 <td>
 
-                                    <EditModal ref="editmodal"/>
+                                    <EditModal ref="editmodal" />
+                                    <DeleteModal ref="deletemodal" />
                                     <Button color="primary" size="sm" className="mr-2" onClick={this.editNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Edit</Button>
-                                    <Button color="danger" size="sm">Delete</Button>
+                                    <Button color="danger" size="sm" onClick={this.deleteNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Delete</Button>
                                 </td>
 
 
