@@ -48,6 +48,8 @@ export class AddModal extends Component {
 
         
         this.props.handleStateChange(this.state.newNoteData);
+
+        this.toggleNewNoteModal();
     }
 
 
