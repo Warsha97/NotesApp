@@ -98,7 +98,7 @@ export class NotesTable extends Component {
                             <th>Title</th>
                             <th>Description</th>
                             <th>Created</th>
-                            <th>Last Upadted</th>
+                           
                         </tr>
                     </thead>
                     {
@@ -109,13 +109,13 @@ export class NotesTable extends Component {
                                 <td> {item.title}</td>
                                 <td> {item.note}</td>
                                 <td> {item.created}</td>
-                                <td> {item.lastUpdated}</td>
+                               
                                 <td>
 
                                     <EditModal note={item} onEdit={this.props.onEdit} ref="editmodal" handleStateChangeAfterUpdate={this.handleStateChangeAfterUpdate} />
-
-                                    <Button color="primary" size="sm" className="mr-2" onClick={this.editNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Edit</Button>
                                     <DeleteModal /*onDelete={() => this.props.onDelete(item.id)}*/ ref="deletemodal" handleStateChangeAfterDel={this.handleStateChangeAfterDel} />
+                                    <Button color="primary" size="sm" className="mr-2" onClick={this.editNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Edit</Button>
+                                    
                                     <Button color="danger" size="sm" onClick={this.deleteNote.bind(this, item.id, item.title, item.note, item.created, item.lastUpdated)}>Delete</Button>
                                 </td>
 
