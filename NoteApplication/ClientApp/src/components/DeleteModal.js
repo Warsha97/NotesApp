@@ -2,6 +2,7 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
 import axios from 'axios';
 import { NotesTable } from './NotesTable';
+import { deleteNote, getNotes } from '../api';
 
 export class DeleteModal extends Component {
     constructor(props) {
@@ -28,17 +29,11 @@ export class DeleteModal extends Component {
             deleteNoteModal: !this.state.deleteNoteModal
         });
     }
-    delete(i, t, n, c, l) {
+    delete(id, title, note, created, lastUpdated) {
         //alert(i + t + n + c + l);
-        this.setState({
-            deleteNoteData: {
-                id: i,
-                title: t,
-                note: n,
-                created: c,
-                lastUpdated:l
 
-            }
+        this.setState({
+            deleteNoteData: { ...this.state.deleteNoteData, id, title, note, created, lastUpdated }
         });
 
         this.toggleDeleteNoteModal();
@@ -47,13 +42,26 @@ export class DeleteModal extends Component {
     deleteNote() {
 
         let { id, title, note, created, lastUpdated } = this.state.deleteNoteData;
-        axios.delete('api/Notes/' + this.state.deleteNoteData.id, {
-            id, title, note, created, lastUpdated
-        }).then((response) => {
-            console.log(response.data);
-        });
+        //axios.delete('api/Notes/' + this.state.deleteNoteData.id, {
+        //    id, title, note, created, lastUpdated
+        //}).then((response) => {
+        //    console.log(response.data);
+        //});
+
+        deleteNote(this.state.deleteNoteData)
+            .then(() => {
+                getNotes()
+                    .then(data => {
+                        this.props.handleStateChangeAfterDel(data.data);
+                        //this.setState({ itemsInAdd: data.data }, () => { console.log('stateChangedINAddModal', this.state.itemsInAdd) });
+                    })
+                    .catch(err => { console.log('error in delete', err) });
+            })
+            .catch(err => { console.log('error in delete', err) });
 
         this.toggleDeleteNoteModal();
+
+       
     }
 
 

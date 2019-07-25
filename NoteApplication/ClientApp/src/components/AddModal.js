@@ -1,12 +1,15 @@
 ﻿import React, { Component } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
 import axios from 'axios';
+import { NotesTable } from './NotesTable';
+import { saveNotes, getNotes } from '../api';
 
 
 
 export class AddModal extends Component {
 
     state = {
+        itemsInAdd: [],
         newNoteModal: false,
         newNoteData: {
             title:'',
@@ -14,6 +17,8 @@ export class AddModal extends Component {
             created: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate(),
             lastUpdated: new Date().getFullYear() + '-' + (new Date().getMonth() + 1) + '-' + new Date().getDate()
         }
+
+       
     }
 
 
@@ -35,29 +40,44 @@ export class AddModal extends Component {
         params.append('created', this.state.newNoteData.created);
         params.append('lastUpdated', this.state.newNoteData.lastUpdated);
 
-        axios({
-            method: 'post',
-            url: 'api/Notes',
-            data: {
-                title: this.state.newNoteData.title,
-                note: this.state.newNoteData.note,
-                created: this.state.newNoteData.created,
-                lastUpdated: this.state.newNoteData.lastUpdated
-            }
-        }).then((response) => console.log(response.data));
+        //1. POST the data to the endpoint
+        //2. GET a new batch of data from database
+        //saveNotes().then(getNotes => update state)
 
+        //axios({
+        //    method: 'post',
+        //    url: 'api/Notes',
+        //    data: {
+        //        title: this.state.newNoteData.title,
+        //        note: this.state.newNoteData.note,
+        //        created: this.state.newNoteData.created,
+        //        lastUpdated: this.state.newNoteData.lastUpdated
+        //    }
+        //}).then((response) => console.log('POST api/notes', response.data));
         
-        this.props.handleStateChange(this.state.newNoteData);
 
+        saveNotes(this.state.newNoteData)
+            .then(() => {
+                getNotes()
+                    .then(data => {
+                        this.props.handleStateChange(data.data);
+                        //this.setState({ itemsInAdd: data.data }, () => { console.log('stateChangedINAddModal', this.state.itemsInAdd) });
+                    })
+                    .catch(err => { console.log('error in  get', err) });
+            })
+            .catch (err => { console.log('error in  get', err) });
+           
         this.toggleNewNoteModal();
+        
+        
     }
-
-
-
+    
     render() {
         return (
+            
 
             <div>
+                
                 <Button color="success" onClick={this.toggleNewNoteModal.bind(this)}>Add Note</Button>
                 <Modal isOpen={this.state.newNoteModal} toggle={this.toggleNewNoteModal.bind(this)} className={this.props.className}>
                     <ModalHeader toggle={this.toggleNewNoteModal.bind(this)}>New Note</ModalHeader>

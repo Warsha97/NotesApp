@@ -2,6 +2,7 @@
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter, Label, Input, FormGroup } from 'reactstrap';
 import axios from 'axios';
 import { NotesTable } from './NotesTable';
+import { updateNote, getNotes } from '../api';
 
 
 export class EditModal extends Component {
@@ -50,13 +51,23 @@ export class EditModal extends Component {
     updateNote() {
 
         let { id, title, note, created, lastUpdated } = this.state.editNoteData;
-        axios.put('api/Notes/' + this.state.editNoteData.id, {
-            id, title, note, created, lastUpdated
-        }).then((response) => {
-            console.log(response.data);
-            });
+        //axios.put('api/Notes/' + this.state.editNoteData.id, {
+        //    id, title, note, created, lastUpdated
+        //}).then((response) => {
+        //    console.log(response.data);
+        //    });
+        updateNote(this.state.editNoteData)
+            .then(() => {
+                getNotes()
+                    .then(data => {
+                        this.props.handleStateChangeAfterUpdate(data.data);
+                        //this.setState({ itemsInAdd: data.data }, () => { console.log('stateChangedINAddModal', this.state.itemsInAdd) });
+                    })
+                    .catch(err => { console.log('error in update', err) });
+            })
+            .catch(err => { console.log('error in  update', err) });
 
-        
+        this.toggleEditNoteModal();
 
 
     }
