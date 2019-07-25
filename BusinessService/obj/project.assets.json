@@ -686,23 +686,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\user\\.nuget\\packages\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\NoteApplication\\BusinessService\\BusinessService.csproj",
+      "projectUniqueName": "E:\\Savva\\KDU\\4th Year\\99xInternshipFollowUp\\StartUpProject\\NoteAppGIT\\Main\\NotesApp-master\\BusinessService\\BusinessService.csproj",
       "projectName": "BusinessService",
-      "projectPath": "E:\\NoteApplication\\BusinessService\\BusinessService.csproj",
-      "packagesPath": "C:\\Users\\user\\.nuget\\packages\\",
-      "outputPath": "E:\\NoteApplication\\BusinessService\\obj\\",
+      "projectPath": "E:\\Savva\\KDU\\4th Year\\99xInternshipFollowUp\\StartUpProject\\NoteAppGIT\\Main\\NotesApp-master\\BusinessService\\BusinessService.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "E:\\Savva\\KDU\\4th Year\\99xInternshipFollowUp\\StartUpProject\\NoteAppGIT\\Main\\NotesApp-master\\BusinessService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\user\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -740,5 +740,13 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "Undefined",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Problem reading the cache file E:\\Savva\\KDU\\4th Year\\99xInternshipFollowUp\\StartUpProject\\NoteAppGIT\\Main\\NotesApp-master\\BusinessService\\obj\\BusinessService.csproj.nuget.cache : Invalid property identifier character: <. Path 'version', line 3, position 0."
+    }
+  ]
 }
