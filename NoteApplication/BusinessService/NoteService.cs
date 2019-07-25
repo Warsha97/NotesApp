@@ -4,64 +4,70 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NoteApplication.Models;
+using NoteApplication.DataAccess;
+using NoteApplication.DataAccess.Models;
+using NoteApplication.DataAccess.Repository;
 
 namespace NoteApplication.BusinessService
 {
     public class NoteService : INoteService
     {
-        NotesDBContext _context = new NotesDBContext();
-
         private readonly INotesRepository _notesRepository;
 
         public NoteService(INotesRepository notesRepository)
         {
-            _notesRepository = notesRepository;
+            this._notesRepository = notesRepository;
         }
 
-        // public NotesController(NotesDBContext context)
-        //{
-        //  _context = context;
-
-        //if(_context.Notes.Count() == 0)
-        //{
-        //  _context.Notes.Add(new Notes { Note = "Note1" });
-        //_context.SaveChanges();
-        //}
-        //}
-        // GET: api/<controller>
         
-        // [Route("api/[controller]/list")]
-        public IEnumerable<Notes> GetNotesService()
+        public IEnumerable<NoteDTO> GetNotesService()
         {
-            
+
             return _notesRepository.GetNotes();
-           // return View(_notesRepository.GetNotes());
+            
         }
-        
-        public int AddNoteService(Notes note)
+
+        public Boolean AddNoteService(NoteDTO note)
         {
+            if(note.Id < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
 
             return _notesRepository.AddNote(note);
         }
 
-        public Notes UpdateNoteService(Notes changedNote)
+        public NoteDTO UpdateNoteService(NoteDTO changedNote)
         {
+            if(changedNote.Id < 0)
+            {
+                return null;
+            }
+
+           // _notesRepository.UpdateNote(changedNote);
+            _notesRepository.Save();
             return _notesRepository.UpdateNote(changedNote);
             //return changedNote;
+            //return _notesRepository.UpdateNote(changedNote);
+            
         }
 
-        public Notes DeleteNoteService(int id)
+        public Boolean DeleteNoteService(int id)
         {
+            if (id < 0)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+          //  _notesRepository.DeleteNote(id);
+          //  _notesRepository.Save();
             return _notesRepository.DeleteNote(id);
         }
 
-        
-        public IEnumerable<Notes> GetNotesByDateService(DateTime selectedDate)
+
+        public IEnumerable<NoteDTO> GetNotesByDateService(DateTime selectedDate)
         {
             return _notesRepository.GetNotesOfDate(selectedDate);
         }
 
-        
     }
 }

@@ -1,0 +1,9 @@
+E:\NoteApplication\BusinessService\bin\Debug\netcoreapp2.2\BusinessService.deps.json
+E:\NoteApplication\BusinessService\bin\Debug\netcoreapp2.2\BusinessService.dll
+E:\NoteApplication\BusinessService\bin\Debug\netcoreapp2.2\BusinessService.pdb
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.csprojAssemblyReference.cache
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.csproj.CoreCompileInputs.cache
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.AssemblyInfoInputs.cache
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.AssemblyInfo.cs
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.dll
+E:\NoteApplication\BusinessService\obj\Debug\netcoreapp2.2\BusinessService.pdb

@@ -6,9 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NoteApplication.Models;
+using NoteApplication.DataAccess.DBContext;
+using NoteApplication.DataAccess.Repository;
 using NoteApplication.BusinessService;
 using Microsoft.Extensions.Logging;
+//using NLog.Extensions.Logging;
+using System;
+using System.IO;
+using NLog;
+using Datalust.SerilogMiddlewareExample.Diagnostics;
+using Serilog;
+using Serilog.Exceptions;
 
 namespace NoteApplication
 {
@@ -16,6 +24,7 @@ namespace NoteApplication
     {
         public Startup(IConfiguration configuration, ILoggerFactory loggerFactory)
         {
+            // LogManager.LoadConfiguration(String.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -27,13 +36,23 @@ namespace NoteApplication
         {
             Configuration = new ConfigurationBuilder()
                             .SetBasePath(env.ContentRootPath)
-                            .AddJsonFile("appSettings.jason")
+                            .AddJsonFile("appSettings.json")
                             .Build();
         }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            LoggerConfiguration logConfig = new LoggerConfiguration();
+            
+            //.MinimumLevel.Debug()
+            //.MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            //.Enrich.FromLogContext()
+            //.ReadFrom.Configuration(Configuration)
+            //logConfig.WriteTo.File("E:/Savva/KDU/4th Year/99xInternshipFollowUp/StartUpProject/NoteApplicationLogging/LogsAgain/log-{Date}.txt");
+            logConfig.WriteTo.File("E:/Savva/KDU/4th Year/99xInternshipFollowUp/StartUpProject/NoteApplicationLogging/LogsAgain/log-{Date}.txt");
+            Log.Logger = logConfig.CreateLogger();
+
             services.AddDbContext<NotesDBContext>(opt =>
                 opt.UseSqlServer(Configuration.GetConnectionString("NoteDatabase")));
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -48,7 +67,7 @@ namespace NoteApplication
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
@@ -83,6 +102,14 @@ namespace NoteApplication
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
+
+            loggerFactory.AddSerilog();
+
+            app.UseMiddleware(typeof(SerilogMiddleware));
+
+            app.UseStaticFiles();
+
+
         }
     }
 }
